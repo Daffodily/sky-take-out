@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.Page;
 import com.sky.constant.MessageConstant;
@@ -67,6 +68,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    /**
+     * 新增员工
+     * @param employeeDTO
+     * @return
+     */
     @Override
     public void addEmployee(EmployeeDTO employeeDTO) {
         System.out.println("当前线程ID" + Thread.currentThread().getId());
@@ -86,6 +92,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.insert(employee);
     }
 
+    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO){
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
         Page<Employee> page = (Page<Employee>) employeeMapper.pageQuery(employeePageQueryDTO);
@@ -108,6 +119,32 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .status(status)
                 .id(id)
                 .build();
+        employeeMapper.update(employee);
+    }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
         employeeMapper.update(employee);
     }
 }

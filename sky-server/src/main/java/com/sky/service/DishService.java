@@ -18,8 +18,8 @@ public interface DishService {
 
     /**
      * 批量删除菜品
-     * @param ids
+     * @param dishIds
      * @return
      */
-    void deleteBatch(List<Long> ids);
+    void deleteBatch(List<Long> dishIds);
 }

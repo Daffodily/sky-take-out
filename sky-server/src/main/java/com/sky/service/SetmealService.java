@@ -32,6 +32,11 @@ public interface SetmealService {
      */
     void update(SetmealDTO setmealDTO);
 
+    /**
+     * 套餐起售、停售
+     * @param status
+     * @param id
+     */
     void startOrStop(Integer status, Long id);
 
     /**
@@ -42,4 +47,10 @@ public interface SetmealService {
     List<Setmeal> list(Setmeal setmeal);
 
     List<DishItemVO> getDishItemById(Long id);
+
+    /**
+     * 批量删除套餐
+     * @param ids
+     */
+    void deleteBatch(List<Long> ids);
 }

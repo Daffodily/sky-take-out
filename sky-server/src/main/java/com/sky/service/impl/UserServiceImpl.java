@@ -10,6 +10,7 @@ import com.sky.properties.WeChatProperties;
 import com.sky.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -43,11 +44,8 @@ public class UserServiceImpl implements UserService {
         String url = getUrl(userLoginDTO);
 
         // 使用 HttpClient 创建请求
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet httpGet = new HttpGet(url);
-
-            // 执行请求
-            HttpResponse response = httpClient.execute(httpGet);
+        try (CloseableHttpClient httpClient = HttpClients.createDefault();
+             CloseableHttpResponse response = httpClient.execute(new HttpGet(url))) {
 
             // 获取响应内容
             String responseString = EntityUtils.toString(response.getEntity());
